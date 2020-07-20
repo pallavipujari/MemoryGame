@@ -8,7 +8,8 @@ let counter=0;
 let buttons=document.querySelectorAll("button");
 console.log(buttons);
 let mainPage=document.getElementById('mainpage');
-
+let playagainbtn=document.createElement('button');
+let h1=document.createElement('h1');
 
 //code
 shuffle(numbers);
@@ -16,6 +17,31 @@ distributeNumbers();
 
 
 //functions
+function getCard(num)
+{
+    switch(num){
+        case '1':
+            return '<img src="card1.jpg">';
+            case '2':
+                return '<img src="card2.jpg">';
+                case '3':
+                    return '<img src="card3.jpg">';
+                    case '4':
+                        return '<img src="card4.jpg">';
+                        case '5':
+                            return '<img src="card5.png">';
+                            case '6':
+                                return '<img src="card6.jpg">';
+                                case '7':
+                                    return '<img src="card7.png">';
+                                    case '8':
+                                        return '<img src="card8.jpg">';
+                    default:
+                        return  '<img src="backside.jpg">';
+
+    }
+}
+
 function shuffle(array) 
     {
         let counter = array.length;
@@ -57,8 +83,9 @@ function shuffle(array)
                 if(!wait && lastKnownButtonId== undefined && lastKnownButtonNumber== undefined  && turnableVal=='true')
                 {
                     e.target.dataset.turnable='false';
-                    e.target.innerText=e.target.dataset.number;
-                    e.target.style.backgroundColor='orange';
+                    e.target.innerHTML= getCard(e.target.dataset.number);                   
+                    //e.target.innerText=e.target.dataset.number;
+                    e.target.style.backgroundColor='lightyellow';
 
                   lastKnownButtonId=e.target.id;
                   lastKnownButtonNumber= e.target.dataset.number;
@@ -68,15 +95,16 @@ function shuffle(array)
                 else if(!wait && lastKnownButtonId!== undefined && lastKnownButtonNumber!== undefined  && turnableVal=='true')
                 {
                     e.target.dataset.turnable='false';
-                    e.target.innerText=e.target.dataset.number;
+                    e.target.innerHTML= getCard(e.target.dataset.number);
+                    //e.target.innerText=e.target.dataset.number;
                     
 //match
                     if(e.target.dataset.number == lastKnownButtonNumber)
                     {
-                            e.target.style.backgroundColor='green'; 
+                            e.target.style.backgroundColor='lightgreen'; 
                             console.log("CurrentLast Known button ID if match"+lastKnownButtonId);
                             let temp1=document.getElementById(lastKnownButtonId);
-                            temp1.style.backgroundColor='green';
+                            temp1.style.backgroundColor='lightgreen';
 
                             //reset values
                             lastKnownButtonId=undefined;
@@ -87,10 +115,36 @@ function shuffle(array)
                             if(counter==16)
                             {
                                 console.log("Game is Over");
-                                let h1=document.createElement('h1');
+                                
                                 h1.innerText="The Game is Over. You Win!!";
                                 h1.style.color="blue";
                                 mainPage.append(h1);
+                                
+                                //This is the code for Play again 
+                                /* 
+
+                                playagainbtn.classList.add('playAgain');
+                                playagainbtn.innerText='PLAY AGAIN';
+                                h1.append(playagainbtn);
+                                playagainbtn.addEventListener('click',function(){
+                                    
+                            //reset();
+                            wait=false;
+                            lastKnownButtonId=undefined;
+                            lastKnownButtonNumber=undefined;
+                            counter=0;
+                            shuffle(numbers);   
+                            distributeNumbers();
+                            h1.remove();
+                                for(let i=0;i<buttons.length;i++)
+                                {
+                                    buttons[i].innerHTML=getCard(0);
+                                    buttons[i].style.backgroundColor='white';
+                                    console.log("Reset");
+                                }   
+
+                                });
+                                */
                             }
                     }
 //not Match
@@ -104,12 +158,14 @@ function shuffle(array)
                         setTimeout(() => {
                             e.target.dataset.turnable='true';
                             e.target.style.backgroundColor='white';
-                            e.target.innerText="";
+                            e.target.innerHTML= getCard(0);
+                            //e.target.innerText="";
 
                             let temp=document.getElementById(lastKnownButtonId);
                             temp.style.backgroundColor='white';
                             temp.dataset.turnable='true';
-                            temp.innerText="";
+                            temp.innerHTML= getCard(0);
+                            //temp.innerText="";
 
                             lastKnownButtonId=undefined;
                             lastKnownButtonNumber=undefined; 
